@@ -1,23 +1,23 @@
 const fetch = require('isomorphic-unfetch');
 
 // Init basic class with API URL
-class GuessingGame {
+class guessingGame {
 	constructor(config) {
 		this.basePath = 'https://word-guessing-game.onrender.com/';
 	}
-
+//Define path + empty string as endpoint
 	request(endpoint = '', options = {}) {
 		let url = this.basePath + endpoint;
-
+//Set headers
 		let headers = {
 			'Content-type': 'application/json'
 		};
-
+//Add config
 		let config = {
 			...options,
 			...headers
 		};
-
+//Add return statement & error handling
 		return fetch(url, config).then((r) => {
 			if (r.ok) {
 				return r.json();
@@ -36,13 +36,15 @@ class GuessingGame {
 		return this.request(url, config);
 	}
 	retrieveGame(id) {
-		//Returns the current state of the game.
-		let url = '/' + id;
+    //Returns the current state of the game
+    //Pass the game id in as a parameter
+		let url = `/${id}`;
 		return this.request(url, {});
 	}
 	guessLetter(id, letter) {
-		// Must be a single letter
-    let url = '/' + id + letter;
+    //Guesses a letter for the game
+    //Pass the game id and desired letter in as parameters
+    let url = `/${id}/${letter}`;
     let config = {
 			method: 'PUT'
 		};
@@ -55,4 +57,4 @@ class GuessingGame {
 	}
 }
 
-export default GuessingGame;
+export default guessingGame;
